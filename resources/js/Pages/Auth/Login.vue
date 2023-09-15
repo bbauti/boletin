@@ -33,7 +33,6 @@ const opc = [
     "No pierdas de vista tus notas.",
     "Tus notas, tu responsabilidad.",
     "Tus calificaciones a tu alcance.",
-    "Tus notas, siempre informado.",
     "Tu app de notas escolares.",
 ];
 

@@ -1,0 +1,24 @@
+version: '3'
+services:
+  db:
+    image: postgres:latest
+    restart: always
+    container_name: silvi-postgres
+    environment:
+      - POSTGRES_PASSWORD=sql
+    ports:
+      - 5432:5432
+    volumes:
+      - ./.docker/conf/postgres/:/docker-entrypoint-initdb.d/
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    container_name: silvi-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "5000:80"
+
+volumes:
+  silvi:

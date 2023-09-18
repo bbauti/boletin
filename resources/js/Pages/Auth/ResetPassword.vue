@@ -1,11 +1,5 @@
 <script setup>
-import { Head, useForm } from '@inertiajs/vue3';
-import AuthenticationCard from '@/Components/AuthenticationCard.vue';
-import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
+import { Head, Link, useForm } from "@inertiajs/vue3";
 
 const props = defineProps({
     email: String,
@@ -15,71 +9,132 @@ const props = defineProps({
 const form = useForm({
     token: props.token,
     email: props.email,
-    password: '',
-    password_confirmation: '',
+    password: "",
+    password_confirmation: "",
 });
 
 const submit = () => {
-    form.post(route('password.update'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
+    form.post(route("password.update"), {
+        onFinish: () => form.reset("password", "password_confirmation"),
     });
 };
 </script>
 
 <template>
     <Head title="Reset Password" />
-
-    <AuthenticationCard>
-        <template #logo>
-            <AuthenticationCardLogo />
-        </template>
-
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="email" value="Email" />
-                <TextInput
-                    id="email"
-                    v-model="form.email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    required
-                    autofocus
-                    autocomplete="username"
-                />
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-                <TextInput
-                    id="password"
-                    v-model="form.password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="new-password"
-                />
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="password_confirmation" value="Confirm Password" />
-                <TextInput
-                    id="password_confirmation"
-                    v-model="form.password_confirmation"
-                    type="password"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="new-password"
-                />
-                <InputError class="mt-2" :message="form.errors.password_confirmation" />
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Reset Password
-                </PrimaryButton>
-            </div>
-        </form>
-    </AuthenticationCard>
+    <section class="flex flex-1 h-screen bg-base-100">
+        <main
+            class="flex flex-col items-center flex-1 flex-shrink-0 px-5 py-16 lg:border-r border-accent/10 shadow-lg overflow-y-auto m-auto"
+        >
+            <section id="login" class="prose max-w-[40ch] w-full mx-auto">
+                <div class="flex-col gap-0 w-full">
+                    <div class="flex flex-col gap-3">
+                        <div
+                            v-if="status"
+                            class="font-medium text-sm text-success"
+                        >
+                            {{ status }}
+                        </div>
+                        <form @submit.prevent="submit">
+                            <div class="form-control w-full">
+                                <label class="label" for="emailInput">
+                                    <span class="label-text">Correo</span>
+                                </label>
+                                <input
+                                    class="input input-bordered"
+                                    id="email"
+                                    v-model="form.email"
+                                    type="email"
+                                    autofocus
+                                    autocomplete="username"
+                                    placeholder="john@bbauti.com"
+                                />
+                                <label
+                                    v-if="form.errors.email"
+                                    class="label"
+                                    for="emailInput"
+                                >
+                                    <span class="label-text text-error">
+                                        {{ form.errors.email }}
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="form-control w-full">
+                                <label class="label" for="passwordInput">
+                                    <span class="label-text">Contraseña</span>
+                                </label>
+                                <input
+                                    class="input input-bordered"
+                                    id="password"
+                                    v-model="form.password"
+                                    type="password"
+                                    autocomplete="new-password"
+                                    placeholder="•••••"
+                                />
+                                <label
+                                    v-if="form.errors.password"
+                                    class="label"
+                                    for="passwordInput"
+                                >
+                                    <span class="label-text text-error">
+                                        {{ form.errors.password }}
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="form-control w-full">
+                                <label class="label" for="passwordInput">
+                                    <span class="label-text"
+                                        >Confirmar contraseña</span
+                                    >
+                                </label>
+                                <input
+                                    class="input input-bordered"
+                                    id="password_confirmation"
+                                    v-model="form.password_confirmation"
+                                    type="password"
+                                    autocomplete="new-password"
+                                    placeholder="•••••"
+                                />
+                                <label
+                                    v-if="form.errors.password"
+                                    class="label"
+                                    for="passwordInput"
+                                >
+                                    <span class="label-text text-error">
+                                        {{ form.errors.password }}
+                                    </span>
+                                </label>
+                            </div>
+                            <button
+                                v-if="form.processing"
+                                class="btn bg-secondary-content border-accent/10 hover:bg-accent/10 hover:border-accent/30 justify-center font-bold min-h-[2.5rem] h-[2.5rem] w-full mt-5 opacity-80"
+                                name="send"
+                                disabled
+                                aria-label="Enviar contraseña"
+                            >
+                                <span
+                                    class="loading loading-spinner loading-md"
+                                ></span>
+                                Cargando...
+                            </button>
+                            <button
+                                v-if="!form.processing"
+                                class="btn bg-secondary-content border-accent/10 hover:bg-accent/10 hover:border-accent/30 justify-center font-bold min-h-[2.5rem] h-[2.5rem] w-full mt-5"
+                                name="send"
+                                aria-label="Enviar contraseña"
+                            >
+                                Cambiar contraseña
+                            </button>
+                        </form>
+                        <Link
+                            :href="route('login')"
+                            class="link link-hover text-sm text-accent/50 font-normal w-fit flex"
+                        >
+                            Volver atras</Link
+                        >
+                    </div>
+                </div>
+            </section>
+        </main>
+    </section>
 </template>

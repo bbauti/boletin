@@ -1,0 +1,4 @@
+<template>
+    bienvenido
+    <slot />
+</template>

@@ -88,7 +88,11 @@ const text = computed(() => sel.value);
                                     autocomplete="username"
                                     placeholder="john@bbauti.com"
                                 />
-                                <label class="label" for="email">
+                                <label
+                                    v-if="form.errors.email"
+                                    class="label"
+                                    for="email"
+                                >
                                     <span class="label-text text-error">
                                         {{ form.errors.email }}
                                     </span>
@@ -113,11 +117,30 @@ const text = computed(() => sel.value);
                                     autocomplete="current-password"
                                     placeholder="•••••"
                                 />
-                                <label class="label" for="password">
+                                <label
+                                    v-if="form.errors.password"
+                                    class="label pb-0"
+                                    for="password"
+                                >
                                     <span class="label-text text-error">
                                         {{ form.errors.password }}
                                     </span>
                                 </label>
+                            </div>
+                            <div class="flex items-center mt-4">
+                                <input
+                                    id="link-checkbox"
+                                    type="checkbox"
+                                    class="rounded"
+                                    value=""
+                                />
+                                <label
+                                    for="link-checkbox"
+                                    class="ml-2 text-sm font-medium select-none"
+                                    :checked="form.remember"
+                                    name="remember"
+                                    >Recordarme</label
+                                >
                             </div>
                             <button
                                 v-if="form.processing"

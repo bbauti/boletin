@@ -89,7 +89,11 @@ const text = computed(() => sel.value);
                                     autocomplete="name"
                                     placeholder="John Doe"
                                 />
-                                <label class="label" for="name">
+                                <label
+                                    v-if="form.errors.name"
+                                    class="label"
+                                    for="name"
+                                >
                                     <span class="label-text text-error">
                                         {{ form.errors.name }}
                                     </span>
@@ -107,7 +111,11 @@ const text = computed(() => sel.value);
                                     autocomplete="username"
                                     placeholder="john@bbauti.com"
                                 />
-                                <label class="label" for="email">
+                                <label
+                                    v-if="form.errors.email"
+                                    class="label"
+                                    for="email"
+                                >
                                     <span class="label-text text-error">
                                         {{ form.errors.email }}
                                     </span>
@@ -125,7 +133,11 @@ const text = computed(() => sel.value);
                                     autocomplete="new-password"
                                     placeholder="•••••"
                                 />
-                                <label class="label" for="password">
+                                <label
+                                    v-if="form.errors.password"
+                                    class="label"
+                                    for="password"
+                                >
                                     <span class="label-text text-error">
                                         {{ form.errors.password }}
                                     </span>
@@ -149,6 +161,7 @@ const text = computed(() => sel.value);
                                     placeholder="•••••"
                                 />
                                 <label
+                                    v-if="form.errors.password_confirmation"
                                     class="label"
                                     for="password_confirmation"
                                 >

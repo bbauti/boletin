@@ -49,7 +49,7 @@ const text = computed(() => sel.value);
     <Head title="Login" />
     <main class="flex flex-1 h-screen bg-base-100">
         <section
-            class="flex flex-col items-center flex-1 flex-shrink-0 px-5 py-16 lg:border-r border-accent/10 shadow-lg overflow-y-auto"
+            class="flex flex-col items-center flex-1 flex-shrink-0 px-5 py-16 lg:border-r border-accent/10 overflow-y-auto"
         >
             <div id="login" class="prose max-w-[40ch] w-full mx-auto">
                 <div class="flex-col gap-0 w-full">
@@ -176,6 +176,11 @@ const text = computed(() => sel.value);
                                 >Registrate ahora</Link
                             >
                         </p>
+                        <Link
+                            href="/"
+                            class="link link-hover text-accent font-normal text-sm text-accent/70 mx-auto"
+                            >Volver al inicio</Link
+                        >
                     </div>
                 </div>
             </div>

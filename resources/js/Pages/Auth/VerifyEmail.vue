@@ -1,9 +1,7 @@
 <script setup>
-import { computed } from 'vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
-import AuthenticationCard from '@/Components/AuthenticationCard.vue';
-import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
+import { computed } from "vue";
+import { Head, Link, useForm } from "@inertiajs/vue3";
+import { Icon } from "@iconify/vue";
 
 const props = defineProps({
     status: String,
@@ -12,51 +10,82 @@ const props = defineProps({
 const form = useForm({});
 
 const submit = () => {
-    form.post(route('verification.send'));
+    form.post(route("verification.send"));
 };
 
-const verificationLinkSent = computed(() => props.status === 'verification-link-sent');
+const verificationLinkSent = computed(
+    () => props.status === "verification-link-sent"
+);
 </script>
 
 <template>
-    <Head title="Email Verification" />
-
-    <AuthenticationCard>
-        <template #logo>
-            <AuthenticationCardLogo />
-        </template>
-
-        <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-            Before continuing, could you verify your email address by clicking on the link we just emailed to you? If you didn't receive the email, we will gladly send you another.
-        </div>
-
-        <div v-if="verificationLinkSent" class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
-            A new verification link has been sent to the email address you provided in your profile settings.
-        </div>
-
-        <form @submit.prevent="submit">
-            <div class="mt-4 flex items-center justify-between">
-                <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Resend Verification Email
-                </PrimaryButton>
-
-                <div>
-                    <Link
-                        :href="route('profile.show')"
-                        class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
+    <Head title="Verificacion de email" />
+    <section class="flex flex-1 h-screen bg-base-100">
+        <main
+            class="flex flex-col items-center flex-1 flex-shrink-0 px-5 py-16 lg:border-r border-accent/10 overflow-y-auto m-auto"
+        >
+            <section id="login" class="prose max-w-[40ch] w-full mx-auto">
+                <div class="flex-col gap-0 w-full">
+                    <p class="mb-4">
+                        Antes de continuar debe verificar su dirección de correo
+                        electrónico, porfavor haga click en el enlace que
+                        acabamos de enviarle.
+                    </p>
+                    <p class="mb-4">
+                        Si no ha recibido el correo electrónico puede soliciar
+                        otro.
+                    </p>
+                    <p
+                        v-if="verificationLinkSent"
+                        class="mb-4 font-medium text-sm text-success"
                     >
-                        Edit Profile</Link>
+                        Un nuevo enlace ha sido enviado a tu direccion de correo
+                        electronico.
+                    </p>
+                    <div class="flex flex-col gap-3">
+                        <form @submit.prevent="submit">
+                            <button
+                                v-if="form.processing"
+                                class="btn bg-secondary-content border-accent/10 hover:bg-accent/10 hover:border-accent/30 justify-center font-bold min-h-[2.5rem] h-[2.5rem] w-full mt-5 opacity-80"
+                                name="sendcode"
+                                disabled
+                                aria-label="Enviar correo"
+                            >
+                                <span
+                                    class="loading loading-spinner loading-md"
+                                ></span>
+                                Cargando...
+                            </button>
+                            <button
+                                v-if="!form.processing"
+                                class="btn bg-secondary-content border-accent/10 hover:bg-accent/10 hover:border-accent/30 justify-center font-bold min-h-[2.5rem] h-[2.5rem] w-full mt-5"
+                                name="sendcode"
+                                aria-label="Enviar correo"
+                            >
+                                <Icon icon="ic:round-email" />
+                                Enviar correo
+                            </button>
+                            <div class="flex justify-between p-2">
+                                <Link
+                                    :href="route('profile.show')"
+                                    class="link link-hover text-sm text-accent/50 font-normal w-fit flex"
+                                >
+                                    Editar perfil</Link
+                                >
 
-                    <Link
-                        :href="route('logout')"
-                        method="post"
-                        as="button"
-                        class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800 ml-2"
-                    >
-                        Log Out
-                    </Link>
+                                <Link
+                                    :href="route('logout')"
+                                    method="post"
+                                    as="button"
+                                    class="link link-hover text-sm text-accent/50 font-normal w-fit flex"
+                                >
+                                    Cerrar sesion
+                                </Link>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
-        </form>
-    </AuthenticationCard>
+            </section>
+        </main>
+    </section>
 </template>

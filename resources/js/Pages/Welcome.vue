@@ -28,9 +28,9 @@ defineProps({
                 </svg>
             </button>
             <Link
-                class="normal-case text-xl font-semibold border-2 border-white/20 px-3 py-2 rounded-lg hover:bg-white/10 hover:scale-105 transition-all ease-in-out"
+                class="flex flex-col normal-case text-lg font-semibold px-3 py-1 rounded-lg hover:bg-white/5 hover:scale-105 transition-all ease-in-out"
                 href="/"
-                >Boletines</Link
+                ><span>Tu</span> <span>Escuela</span> <span>Web</span></Link
             >
         </div>
         <!-- <div class="navbar-center hidden lg:flex">
@@ -50,15 +50,17 @@ defineProps({
 
                 <template v-else>
                     <div class="flex gap-3">
-                        <Link class="btn btn-ghost" :href="route('login')"
+                        <Link
+                            class="btn btn-ghost min-h-[unset] h-fit px-3 py-2 my-auto rounded-lg font-semibold"
+                            :href="route('login')"
                             >Iniciar sesion</Link
                         >
 
                         <Link
-                            class="btn btn-outline"
+                            class="btn btn-outline font-bold"
                             v-if="canRegister"
                             :href="route('register')"
-                            >Registrarse</Link
+                            >Comencemos</Link
                         >
                     </div>
                 </template>

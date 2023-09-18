@@ -19,7 +19,7 @@ const submit = () => {
     <Head title="Olvide mi contraseña" />
     <section class="flex flex-1 h-screen bg-base-100">
         <main
-            class="flex flex-col items-center flex-1 flex-shrink-0 px-5 py-16 lg:border-r border-accent/10 shadow-lg overflow-y-auto m-auto"
+            class="flex flex-col items-center flex-1 flex-shrink-0 px-5 py-16 lg:border-r border-accent/10 overflow-y-auto m-auto"
         >
             <section id="login" class="prose max-w-[40ch] w-full mx-auto">
                 <div class="flex-col gap-0 w-full">

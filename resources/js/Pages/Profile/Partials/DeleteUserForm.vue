@@ -40,61 +40,73 @@ const closeModal = () => {
 <template>
     <ActionSection>
         <template #title>
-            Delete Account
+            Borrar cuenta
         </template>
 
         <template #description>
-            Permanently delete your account.
+            Borrar permanentemente tu cuenta.
         </template>
 
         <template #content>
             <div class="max-w-xl text-sm text-gray-600 dark:text-gray-400">
-                Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.
+                Una vez eliminada su cuenta, todos sus recursos y datos se borrarán permanentemente.
             </div>
 
             <div class="mt-5">
-                <DangerButton @click="confirmUserDeletion">
-                    Delete Account
-                </DangerButton>
+                <button class="btn btn-error" @click="confirmUserDeletion">
+                    Borrar cuenta
+                </button>
             </div>
 
-            <!-- Delete Account Confirmation Modal -->
             <DialogModal :show="confirmingUserDeletion" @close="closeModal">
                 <template #title>
-                    Delete Account
+                    Borrar cuenta
                 </template>
 
                 <template #content>
-                    Are you sure you want to delete your account? Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.
-
-                    <div class="mt-4">
-                        <TextInput
+                    ¿Está seguro de que desea eliminar su cuenta?
+                    Por favor, introduzca su contraseña para confirmar que desea eliminar permanentemente su cuenta.
+                    <div class="form-control w-full">
+                        <label class="label" for="password">
+                            <span class="label-text">Contraseña</span>
+                        </label>
+                        <input
                             ref="passwordInput"
                             v-model="form.password"
                             type="password"
-                            class="mt-1 block w-3/4"
-                            placeholder="Password"
+                            name="password"
+                            class="input input-bordered w-full"
                             autocomplete="current-password"
                             @keyup.enter="deleteUser"
+                            placeholder="•••••"
                         />
-
-                        <InputError :message="form.errors.password" class="mt-2" />
+                        <label
+                            v-if="form.errors.email"
+                            class="label"
+                            for="password"
+                        >
+                            <span class="label-text text-error">
+                                {{ form.errors.password }}
+                            </span>
+                        </label>
                     </div>
                 </template>
 
                 <template #footer>
-                    <SecondaryButton @click="closeModal">
-                        Cancel
-                    </SecondaryButton>
+                    <div class="flex justify-between w-full">
 
-                    <DangerButton
-                        class="ml-3"
-                        :class="{ 'opacity-25': form.processing }"
-                        :disabled="form.processing"
-                        @click="deleteUser"
-                    >
-                        Delete Account
-                    </DangerButton>
+                        <button
+                            class="ml-3 btn btn-error"
+                            :class="{ 'opacity-25': form.processing }"
+                            :disabled="form.processing"
+                            @click="deleteUser"
+                        >
+                        Borrar cuenta
+                        </button>
+                        <button class="btn btn-outline" @click="closeModal">
+                            Cancelar
+                        </button>
+                    </div>
                 </template>
             </DialogModal>
         </template>

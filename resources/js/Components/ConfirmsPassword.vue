@@ -1,42 +1,38 @@
 <script setup>
-import { ref, reactive, nextTick } from 'vue';
-import DialogModal from './DialogModal.vue';
-import InputError from './InputError.vue';
-import PrimaryButton from './PrimaryButton.vue';
-import SecondaryButton from './SecondaryButton.vue';
-import TextInput from './TextInput.vue';
+import { ref, reactive, nextTick } from "vue";
+import DialogModal from "./DialogModal.vue";
 
-const emit = defineEmits(['confirmed']);
+const emit = defineEmits(["confirmed"]);
 
 defineProps({
     title: {
         type: String,
-        default: 'Confirm Password',
+        default: "Confirma tu contraseña",
     },
     content: {
         type: String,
-        default: 'For your security, please confirm your password to continue.',
+        default: "Por tu seguridad, confirma tu contraseña para continuar.",
     },
     button: {
         type: String,
-        default: 'Confirm',
+        default: "Confirmar",
     },
 });
 
 const confirmingPassword = ref(false);
 
 const form = reactive({
-    password: '',
-    error: '',
+    password: "",
+    error: "",
     processing: false,
 });
 
 const passwordInput = ref(null);
 
 const startConfirmingPassword = () => {
-    axios.get(route('password.confirmation')).then(response => {
+    axios.get(route("password.confirmation")).then((response) => {
         if (response.data.confirmed) {
-            emit('confirmed');
+            emit("confirmed");
         } else {
             confirmingPassword.value = true;
 
@@ -48,25 +44,27 @@ const startConfirmingPassword = () => {
 const confirmPassword = () => {
     form.processing = true;
 
-    axios.post(route('password.confirm'), {
-        password: form.password,
-    }).then(() => {
-        form.processing = false;
+    axios
+        .post(route("password.confirm"), {
+            password: form.password,
+        })
+        .then(() => {
+            form.processing = false;
 
-        closeModal();
-        nextTick().then(() => emit('confirmed'));
-
-    }).catch(error => {
-        form.processing = false;
-        form.error = error.response.data.errors.password[0];
-        passwordInput.value.focus();
-    });
+            closeModal();
+            nextTick().then(() => emit("confirmed"));
+        })
+        .catch((error) => {
+            form.processing = false;
+            form.error = error.response.data.errors.password[0];
+            passwordInput.value.focus();
+        });
 };
 
 const closeModal = () => {
     confirmingPassword.value = false;
-    form.password = '';
-    form.error = '';
+    form.password = "";
+    form.error = "";
 };
 </script>
 
@@ -83,35 +81,38 @@ const closeModal = () => {
 
             <template #content>
                 {{ content }}
-
-                <div class="mt-4">
-                    <TextInput
+                <div class="form-control w-full mt-5">
+                    <input
+                        class="input input-bordered w-full"
                         ref="passwordInput"
                         v-model="form.password"
                         type="password"
-                        class="mt-1 block w-3/4"
-                        placeholder="Password"
                         autocomplete="current-password"
                         @keyup.enter="confirmPassword"
+                        placeholder="•••••"
                     />
-
-                    <InputError :message="form.error" class="mt-2" />
+                    <label v-if="form.errors" class="label" for="password">
+                        <span class="label-text text-error">
+                            {{ form.errors }}
+                        </span>
+                    </label>
                 </div>
             </template>
 
             <template #footer>
-                <SecondaryButton @click="closeModal">
-                    Cancel
-                </SecondaryButton>
-
-                <PrimaryButton
-                    class="ml-3"
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
-                    @click="confirmPassword"
-                >
-                    {{ button }}
-                </PrimaryButton>
+                <div class="flex justify-between w-full">
+                    <button
+                        class="btn btn-accent"
+                        :class="{ 'opacity-25': form.processing }"
+                        :disabled="form.processing"
+                        @click="confirmPassword"
+                    >
+                        {{ button }}
+                    </button>
+                    <button class="btn btn-off" @click="closeModal">
+                        Cancelar
+                    </button>
+                </div>
             </template>
         </DialogModal>
     </span>

@@ -5,3 +5,45 @@
 [x-cloak] {
     display: none;
 }
+
+.btn {
+    min-height: unset;
+    height: unset;
+    @apply py-[0.6rem];
+    @apply px-4;
+    @apply rounded-[0.375rem];
+    @apply text-xs;
+    @apply tracking-widest;
+}
+
+.btn-success {
+    @apply border-accent/10;
+    @apply hover:bg-success/50;
+    @apply hover:border-accent/30;
+}
+
+.btn-error {
+    @apply border-accent/10;
+    @apply hover:bg-error/50;
+    @apply hover:border-accent/20;
+}
+
+.btn-error-secondary {
+    @apply bg-error/50;
+    @apply border-accent/10;
+    @apply hover:bg-error/20;
+    @apply hover:border-accent/10;
+}
+
+.btn-accent {
+    @apply border-accent/10;
+    @apply hover:bg-accent/50;
+    @apply hover:border-accent/20;
+}
+
+.btn-off {
+    @apply bg-secondary;
+    @apply border-accent/10;
+    @apply hover:bg-accent/10;
+    @apply hover:border-accent/30;
+}

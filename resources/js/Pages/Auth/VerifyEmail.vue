@@ -28,8 +28,8 @@ const verificationLinkSent = computed(
                 <div class="flex-col gap-0 w-full">
                     <p class="mb-4">
                         Antes de continuar debe verificar su dirección de correo
-                        electrónico, porfavor haga click en el enlace que
-                        acabamos de enviarle.
+                        electrónico, haga click en el enlace que acabamos de
+                        enviarle a su email.
                     </p>
                     <p class="mb-4">
                         Si no ha recibido el correo electrónico puede soliciar

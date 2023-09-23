@@ -1,18 +1,14 @@
 <script setup>
-import { ref } from 'vue';
-import { useForm } from '@inertiajs/vue3';
-import ActionSection from '@/Components/ActionSection.vue';
-import DangerButton from '@/Components/DangerButton.vue';
-import DialogModal from '@/Components/DialogModal.vue';
-import InputError from '@/Components/InputError.vue';
-import SecondaryButton from '@/Components/SecondaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
+import { ref } from "vue";
+import { useForm } from "@inertiajs/vue3";
+import ActionSection from "@/Components/ActionSection.vue";
+import DialogModal from "@/Components/DialogModal.vue";
 
 const confirmingUserDeletion = ref(false);
 const passwordInput = ref(null);
 
 const form = useForm({
-    password: '',
+    password: "",
 });
 
 const confirmUserDeletion = () => {
@@ -22,7 +18,7 @@ const confirmUserDeletion = () => {
 };
 
 const deleteUser = () => {
-    form.delete(route('current-user.destroy'), {
+    form.delete(route("current-user.destroy"), {
         preserveScroll: true,
         onSuccess: () => closeModal(),
         onError: () => passwordInput.value.focus(),
@@ -39,17 +35,14 @@ const closeModal = () => {
 
 <template>
     <ActionSection>
-        <template #title>
-            Borrar cuenta
-        </template>
+        <template #title> Borrar cuenta </template>
 
-        <template #description>
-            Borrar permanentemente tu cuenta.
-        </template>
+        <template #description> Borrar permanentemente tu cuenta. </template>
 
         <template #content>
-            <div class="max-w-xl text-sm text-gray-600 dark:text-gray-400">
-                Una vez eliminada su cuenta, todos sus recursos y datos se borrarán permanentemente.
+            <div class="max-w-xl text-sm font-semibold">
+                Una vez eliminada su cuenta, todos sus recursos y datos se
+                borrarán permanentemente.
             </div>
 
             <div class="mt-5">
@@ -59,13 +52,12 @@ const closeModal = () => {
             </div>
 
             <DialogModal :show="confirmingUserDeletion" @close="closeModal">
-                <template #title>
-                    Borrar cuenta
-                </template>
+                <template #title> Borrar cuenta </template>
 
                 <template #content>
-                    ¿Está seguro de que desea eliminar su cuenta?
-                    Por favor, introduzca su contraseña para confirmar que desea eliminar permanentemente su cuenta.
+                    ¿Está seguro de que desea eliminar su cuenta? Por favor,
+                    introduzca su contraseña para confirmar que desea eliminar
+                    permanentemente su cuenta.
                     <div class="form-control w-full">
                         <label class="label" for="password">
                             <span class="label-text">Contraseña</span>
@@ -81,7 +73,7 @@ const closeModal = () => {
                             placeholder="•••••"
                         />
                         <label
-                            v-if="form.errors.email"
+                            v-if="form.errors.password"
                             class="label"
                             for="password"
                         >
@@ -94,16 +86,15 @@ const closeModal = () => {
 
                 <template #footer>
                     <div class="flex justify-between w-full">
-
                         <button
-                            class="ml-3 btn btn-error"
+                            class="btn btn-error"
                             :class="{ 'opacity-25': form.processing }"
                             :disabled="form.processing"
                             @click="deleteUser"
                         >
-                        Borrar cuenta
+                            Borrar cuenta
                         </button>
-                        <button class="btn btn-outline" @click="closeModal">
+                        <button class="btn btn-off" @click="closeModal">
                             Cancelar
                         </button>
                     </div>

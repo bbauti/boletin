@@ -20,6 +20,14 @@ const submit = () => {
 };
 </script>
 
+<script>
+import GeneralLayout from "@/Layouts/GeneralLayout.vue";
+
+export default {
+    layout: GeneralLayout,
+};
+</script>
+
 <template>
     <Head title="Reset Password" />
     <section class="flex flex-1 h-screen bg-base-100">
@@ -106,20 +114,9 @@ const submit = () => {
                                 </label>
                             </div>
                             <button
-                                v-if="form.processing"
-                                class="btn bg-secondary-content border-accent/10 hover:bg-accent/10 hover:border-accent/30 justify-center font-bold min-h-[2.5rem] h-[2.5rem] w-full mt-5 opacity-80"
-                                name="send"
-                                disabled
-                                aria-label="Enviar contraseña"
-                            >
-                                <span
-                                    class="loading loading-spinner loading-md"
-                                ></span>
-                                Cargando...
-                            </button>
-                            <button
-                                v-if="!form.processing"
                                 class="btn bg-secondary-content border-accent/10 hover:bg-accent/10 hover:border-accent/30 justify-center font-bold min-h-[2.5rem] h-[2.5rem] w-full mt-5"
+                                :class="{ 'opacity-25': form.processing }"
+                                :disabled="form.processing"
                                 name="send"
                                 aria-label="Enviar contraseña"
                             >

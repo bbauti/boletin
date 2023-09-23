@@ -45,6 +45,14 @@ useIntervalFn(() => {
 const text = computed(() => sel.value);
 </script>
 
+<script>
+import GeneralLayout from "@/Layouts/GeneralLayout.vue";
+
+export default {
+    layout: GeneralLayout,
+};
+</script>
+
 <template>
     <Head title="Login" />
     <main class="flex flex-1 h-screen bg-base-100">
@@ -143,24 +151,9 @@ const text = computed(() => sel.value);
                                 >
                             </div>
                             <button
-                                v-if="form.processing"
-                                class="btn mt-4 bg-success/20 min-h-[2.5rem] h-[2.5rem] w-full border-success/80 hover:border-success/80 hover:bg-success/25"
-                                name="loginUser"
-                                aria-label="Login"
-                                disabled
-                                style="
-                                    background-color: rgb(10, 36, 6);
-                                    color: rgb(129, 129, 129);
-                                "
-                            >
-                                <span
-                                    class="loading loading-spinner loading-md"
-                                ></span>
-                                Cargando...
-                            </button>
-                            <button
-                                v-if="!form.processing"
                                 class="btn mt-4 bg-success/50 min-h-[2.5rem] h-[2.5rem] w-full border-success/80 hover:border-success/80 hover:bg-success/25"
+                                :class="{ 'opacity-25': form.processing }"
+                                :disabled="form.processing"
                                 name="loginUser"
                                 aria-label="Login"
                             >

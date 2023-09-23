@@ -7,6 +7,14 @@ defineProps({
 });
 </script>
 
+<script>
+import GeneralLayout from "@/Layouts/GeneralLayout.vue";
+
+export default {
+    layout: GeneralLayout,
+};
+</script>
+
 <template>
     <Head title="Welcome" />
     <div class="navbar bg-gradient-to-b from-zinc-950/40 from-99% p-5 mb-10">

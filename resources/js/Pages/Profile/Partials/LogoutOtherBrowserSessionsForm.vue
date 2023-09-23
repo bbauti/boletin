@@ -4,6 +4,7 @@ import { useForm } from "@inertiajs/vue3";
 import ActionMessage from "@/Components/ActionMessage.vue";
 import ActionSection from "@/Components/ActionSection.vue";
 import DialogModal from "@/Components/DialogModal.vue";
+import { toast } from "vue-sonner";
 
 defineProps({
     sessions: Array,
@@ -27,7 +28,10 @@ const logoutOtherBrowserSessions = () => {
         preserveScroll: true,
         onSuccess: () => closeModal(),
         onError: () => passwordInput.value.focus(),
-        onFinish: () => form.reset(),
+        onFinish: () => {
+            form.reset();
+            toast.success("Sesiones cerradas");
+        },
     });
 };
 
@@ -179,20 +183,9 @@ const closeModal = () => {
                 <template #footer>
                     <div class="flex justify-between gap-5 w-full">
                         <button
-                            v-if="form.processing"
-                            class="btn bg-success border-accent/10 hover:bg-success/10 hover:border-accent/30 justify-center font-bold min-h-[2.5rem] h-[2.5rem] w-fit mt-5 opacity-80"
-                            name="sendcode"
-                            disabled
-                            aria-label="Enviar correo"
-                        >
-                            <span
-                                class="loading loading-spinner loading-md"
-                            ></span>
-                            Cargando...
-                        </button>
-                        <button
-                            v-if="!form.processing"
                             class="btn btn-success mt-5"
+                            :class="{ 'opacity-25': form.processing }"
+                            :disabled="form.processing"
                             name="sendcode"
                             aria-label="Enviar correo"
                             @click="logoutOtherBrowserSessions"

@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import ActionMessage from "@/Components/ActionMessage.vue";
 import FormSection from "@/Components/FormSection.vue";
+import { toast } from "vue-sonner";
 
 const passwordInput = ref(null);
 const currentPasswordInput = ref(null);
@@ -17,7 +18,10 @@ const updatePassword = () => {
     form.put(route("user-password.update"), {
         errorBag: "updatePassword",
         preserveScroll: true,
-        onSuccess: () => form.reset(),
+        onSuccess: () => {
+            form.reset();
+            toast.success("Contraseña actualizada correctamente");
+        },
         onError: () => {
             if (form.errors.password) {
                 form.reset("password", "password_confirmation");

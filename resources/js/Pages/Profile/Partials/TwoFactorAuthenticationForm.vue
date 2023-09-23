@@ -3,6 +3,7 @@ import { ref, computed, watch } from "vue";
 import { router, useForm, usePage } from "@inertiajs/vue3";
 import ActionSection from "@/Components/ActionSection.vue";
 import ConfirmsPassword from "@/Components/ConfirmsPassword.vue";
+import { toast } from "vue-sonner";
 
 const props = defineProps({
     requiresConfirmation: Boolean,
@@ -80,6 +81,7 @@ const confirmTwoFactorAuthentication = () => {
             confirming.value = false;
             qrCode.value = null;
             setupKey.value = null;
+            toast.success("Autenticacion de dos factores activada");
         },
     });
 };
@@ -98,6 +100,7 @@ const disableTwoFactorAuthentication = () => {
         onSuccess: () => {
             disabling.value = false;
             confirming.value = false;
+            toast.success("Autenticacion de dos factores desactivada");
         },
     });
 };
@@ -115,26 +118,23 @@ const disableTwoFactorAuthentication = () => {
         <template #content>
             <h3
                 v-if="twoFactorEnabled && !confirming"
-                class="text-lg font-medium text-gray-900 dark:text-gray-100"
+                class="text-lg font-medium"
             >
                 Tenes activada la autenticación de dos factores.
             </h3>
 
             <h3
                 v-else-if="twoFactorEnabled && confirming"
-                class="text-lg font-medium text-gray-900 dark:text-gray-100"
+                class="text-lg font-medium"
             >
                 Termina de habilitar la autenticación de dos factores.
             </h3>
 
-            <h3
-                v-else
-                class="text-lg font-medium text-gray-900 dark:text-gray-100"
-            >
+            <h3 v-else class="text-lg font-medium">
                 No activaste la autenticación de dos factores.
             </h3>
 
-            <div class="mt-3 max-w-xl text-sm text-gray-600 dark:text-gray-400">
+            <div class="mt-3 max-w-xl text-sm">
                 <p>
                     Cuando la autenticación de dos factores está activada, se le
                     pedirá un código aleatorio seguro durante la autenticación.
@@ -145,9 +145,7 @@ const disableTwoFactorAuthentication = () => {
 
             <div v-if="twoFactorEnabled">
                 <div v-if="qrCode">
-                    <div
-                        class="mt-4 max-w-xl text-sm text-gray-600 dark:text-gray-400"
-                    >
+                    <div class="mt-4 max-w-xl text-sm">
                         <p v-if="confirming" class="font-semibold">
                             Para terminar de activar la autenticación de dos
                             factores, escanee el siguiente código QR con la
@@ -168,10 +166,7 @@ const disableTwoFactorAuthentication = () => {
                         v-html="qrCode"
                     />
 
-                    <div
-                        v-if="setupKey"
-                        class="mt-4 max-w-xl text-sm text-gray-600 dark:text-gray-400"
-                    >
+                    <div v-if="setupKey" class="mt-4 max-w-xl text-sm">
                         <p class="font-semibold">
                             Llave de configuración:
                             <span v-html="setupKey"></span>
@@ -205,9 +200,7 @@ const disableTwoFactorAuthentication = () => {
                 </div>
 
                 <div v-if="recoveryCodes.length > 0 && !confirming">
-                    <div
-                        class="mt-4 max-w-xl text-sm text-gray-600 dark:text-gray-400"
-                    >
+                    <div class="mt-4 max-w-xl text-sm">
                         <p class="font-semibold">
                             Guarde estos códigos de recuperación en un lugar
                             seguro. Pueden utilizarse para recuperar el acceso a
@@ -267,7 +260,7 @@ const disableTwoFactorAuthentication = () => {
                         @confirmed="showRecoveryCodes"
                         v-if="recoveryCodes.length === 0 && !confirming"
                     >
-                        <button class="btn btn-secondary">
+                        <button class="btn btn-off">
                             Ver codigos de recuperacion
                         </button>
                     </ConfirmsPassword>

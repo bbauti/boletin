@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { Link, router, useForm } from "@inertiajs/vue3";
 import ActionMessage from "@/Components/ActionMessage.vue";
 import FormSection from "@/Components/FormSection.vue";
+import { toast } from "vue-sonner";
 
 const props = defineProps({
     user: Object,
@@ -27,7 +28,10 @@ const updateProfileInformation = () => {
     form.post(route("user-profile-information.update"), {
         errorBag: "updateProfileInformation",
         preserveScroll: true,
-        onSuccess: () => clearPhotoFileInput(),
+        onSuccess: () => {
+            clearPhotoFileInput();
+            toast.success("Perfil actualizado correctamente");
+        },
     });
 };
 

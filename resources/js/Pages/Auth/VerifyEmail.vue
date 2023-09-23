@@ -18,6 +18,14 @@ const verificationLinkSent = computed(
 );
 </script>
 
+<script>
+import GeneralLayout from "@/Layouts/GeneralLayout.vue";
+
+export default {
+    layout: GeneralLayout,
+};
+</script>
+
 <template>
     <Head title="Verificacion de email" />
     <section class="flex flex-1 h-screen bg-base-100">
@@ -45,20 +53,9 @@ const verificationLinkSent = computed(
                     <div class="flex flex-col gap-3">
                         <form @submit.prevent="submit">
                             <button
-                                v-if="form.processing"
-                                class="btn bg-secondary-content border-accent/10 hover:bg-accent/10 hover:border-accent/30 justify-center font-bold min-h-[2.5rem] h-[2.5rem] w-full mt-5 opacity-80"
-                                name="sendcode"
-                                disabled
-                                aria-label="Enviar correo"
-                            >
-                                <span
-                                    class="loading loading-spinner loading-md"
-                                ></span>
-                                Cargando...
-                            </button>
-                            <button
-                                v-if="!form.processing"
                                 class="btn bg-secondary-content border-accent/10 hover:bg-accent/10 hover:border-accent/30 justify-center font-bold min-h-[2.5rem] h-[2.5rem] w-full mt-5"
+                                :class="{ 'opacity-25': form.processing }"
+                                :disabled="form.processing"
                                 name="sendcode"
                                 aria-label="Enviar correo"
                             >

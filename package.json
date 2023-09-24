@@ -22,7 +22,9 @@
     },
     "dependencies": {
         "@headlessui/vue": "^1.7.16",
+        "@vueuse/components": "^10.4.1",
         "@vueuse/core": "^10.4.1",
+        "tailwindcss-animated": "^1.0.1",
         "vue-sonner": "^0.4.4"
     }
 }

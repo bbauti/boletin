@@ -183,7 +183,7 @@ const closeModal = () => {
                 <template #footer>
                     <div class="flex justify-between gap-5 w-full">
                         <button
-                            class="btn btn-success mt-5"
+                            class="btn btn-success mt-5 w-fit"
                             :class="{ 'opacity-25': form.processing }"
                             :disabled="form.processing"
                             name="sendcode"

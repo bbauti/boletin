@@ -63,6 +63,7 @@ const deletePhoto = () => {
         onSuccess: () => {
             photoPreview.value = null;
             clearPhotoFileInput();
+            toast.success("Imagen borrada correctamente");
         },
     });
 };

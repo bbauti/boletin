@@ -51,8 +51,11 @@ export default {
 			fontFamily: {
 				'sans': ['Inter', ...defaultTheme.fontFamily.sans],
 			},
+			animation: {
+				'fade-left': 'fade-left 200ms both',
+			},
 		}
 	},
 
-    plugins: [forms, typography, daisyui],
+    plugins: [forms, typography, daisyui, require('tailwindcss-animated')],
 };

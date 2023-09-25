@@ -2,10 +2,11 @@
 import { ref } from "vue";
 import { Head, Link, router } from "@inertiajs/vue3";
 import { Icon } from "@iconify/vue";
-import { useDark, useToggle, useStorage } from "@vueuse/core";
+import { useDark, useToggle } from "@vueuse/core";
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
 import NavLink from "@/Components/NavLink.vue";
+import NavSection from "@/Components/NavSection.vue";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 
 defineProps({
@@ -25,11 +26,10 @@ const toggleDark = () => {
 
 const showingNavigationDropdown = ref(false);
 
-const is_expanded = ref(useStorage("is_expanded", true));
+const is_expanded = ref(false);
 
 const toggleMenu = () => {
     is_expanded.value = !is_expanded.value;
-    localStorage.setItem("is_expanded", is_expanded.value);
 };
 
 const logout = () => {
@@ -41,20 +41,17 @@ const logout = () => {
     <div class="min-h-screen flex items-start">
         <aside
             class="w-full max-w-[230px] bg-secondary border-r border-accent/20 sticky top-0 h-[100dvh] max-h-[100dvh] flex flex-col transition-all ease-in-out"
-            :class="is_expanded ? '' : 'max-w-[56px]'"
+            :class="is_expanded ? 'max-w-[80px]' : ''"
         >
             <div class="bg-red h-20 relative flex items-center">
                 <button
                     @click="toggleMenu"
                     class="transition-all ease-in-out duration-300 absolute top-[10px] hover:bg-accent/20 rounded-sm w-8 h-8 grid place-items-center"
-                    :class="is_expanded ? 'right-[10px]' : 'right-[12px]'"
+                    :class="
+                        is_expanded ? 'right-[30px]' : 'rotate-180 right-[10px]'
+                    "
                 >
-                    <p
-                        class="transition-all ease-in-out duration-400"
-                        :class="is_expanded ? 'rotate-180' : ''"
-                    >
-                        ->
-                    </p>
+                    ->
                 </button>
             </div>
             <!-- <div
@@ -62,66 +59,47 @@ const logout = () => {
             /> -->
             <div class="bg-accent/20 h-[1px] mx-3" />
             <section class="flex flex-col h-full flex-1">
-                <nav
-                    class="flex flex-col gap-2 transition-all ease-in-out"
-                    :class="is_expanded ? 'mx-6' : 'mx-2'"
-                >
-                    <p
-                        class="text-sm text-accent/30 font-medium uppercase tracking-wide mt-4 mb-2 select-none"
-                    >
-                        Principal
-                    </p>
+                <NavSection title="Principal">
                     <NavLink
                         :href="route('dashboard')"
                         :active="route().current('dashboard')"
-                        :is_expanded="is_expanded"
-                        title="Dashboard"
                         icon="ic:baseline-analytics"
-                    />
-                    <NavLink
-                        :href="route('login')"
-                        :active="route().current('login')"
-                        :is_expanded="is_expanded"
-                        title="Asistencias"
-                        icon="material-symbols:person"
-                    />
-                    <NavLink
-                        :href="route('login')"
-                        :active="route().current('login')"
-                        :is_expanded="is_expanded"
-                        title="Calificaciones"
-                        icon="fa6-solid:file-pen"
-                    />
-                </nav>
-                <nav
-                    class="flex flex-col gap-2 transition-all ease-in-out"
-                    :class="is_expanded ? 'mx-6' : 'mx-2'"
-                >
-                    <p
-                        class="text-sm text-accent/30 font-medium uppercase tracking-wide mt-4 mb-2 select-none"
                     >
-                        Otro
-                    </p>
+                        Dashboard
+                    </NavLink>
                     <NavLink
                         :href="route('login')"
                         :active="route().current('login')"
-                        :is_expanded="is_expanded"
-                        title="Ajustes"
+                        icon="material-symbols:person"
+                    >
+                        Asistencias
+                    </NavLink>
+                    <NavLink
+                        :href="route('login')"
+                        :active="route().current('login')"
+                        icon="fa6-solid:file-pen"
+                    >
+                        Calificaciones
+                    </NavLink>
+                </NavSection>
+                <NavSection title="Otro">
+                    <NavLink
+                        :href="route('login')"
+                        :active="route().current('login')"
                         icon="solar:settings-bold"
-                    />
+                    >
+                        Ajustes
+                    </NavLink>
                     <NavLink
                         :href="route('login')"
                         :active="route().current('login')"
-                        :is_expanded="is_expanded"
-                        title="Soporte"
                         icon="tabler:headphones-filled"
-                    />
-                </nav>
+                    >
+                        Soporte
+                    </NavLink>
+                </NavSection>
                 <div class="bg-accent/20 h-[1px] mx-3 mt-auto mb-5" />
-                <nav
-                    class="flex items-center mx-6 mb-5"
-                    :class="is_expanded ? '' : 'flex-col'"
-                >
+                <nav class="flex items-center mx-6 mb-5">
                     <Link
                         :href="route('profile.show')"
                         class="flex items-center gap-2 max-w-[16ch] relative group hover:bg-accent/20 p-2 rounded-lg transition-all ease-in-out overflow-hidden"
@@ -136,24 +114,13 @@ const logout = () => {
                             :src="$page.props.auth.user.profile_photo_url"
                             :alt="$page.props.auth.user.name"
                         />
-                        <div
-                            class="overflow-hidden max-w-[10ch] transition-all ease-in-out"
-                            :class="
-                                is_expanded
-                                    ? ''
-                                    : 'text-transparent -ml-[10rem]'
-                            "
-                        >
-                            <div>
-                                <p class="text-sm font-medium overflow-hidden">
-                                    {{
-                                        $page.props.auth.user.name.split(" ")[0]
-                                    }}
-                                </p>
-                                <p class="text-xs text-accent/20">
-                                    {{ $page.props.auth.user.email }}
-                                </p>
-                            </div>
+                        <div class="overflow-hidden max-w-[10ch]">
+                            <p class="text-sm font-medium">
+                                {{ $page.props.auth.user.name.split(" ")[0] }}
+                            </p>
+                            <p class="text-xs text-accent/20">
+                                {{ $page.props.auth.user.email }}
+                            </p>
                         </div>
                     </Link>
                     <form @submit.prevent="logout">

@@ -37,12 +37,12 @@ const textExpandedClasses = computed(() => {
         :class="[classes, textExpandedClasses]"
     >
         <div
-            class="flex items-center transition-all ease-in-out"
+            class="flex items-center"
             :class="props.is_expanded ? 'gap-2' : 'justify-center'"
         >
             <Icon :icon="icon" class="text-xl" />
             <div
-                class="overflow-hidden transition-all ease-in-out"
+                class="overflow-hidden"
                 :class="props.is_expanded ? '' : 'text-transparent'"
             >
                 <p class="transition-all ease-in-out" :class="expandedClasses">

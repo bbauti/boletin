@@ -1,12 +1,10 @@
 <script setup>
 import { ref } from "vue";
-import { Head, Link, router } from "@inertiajs/vue3";
+import { Link, router } from "@inertiajs/vue3";
 import { Icon } from "@iconify/vue";
 import { useDark, useToggle, useStorage } from "@vueuse/core";
-import Dropdown from "@/Components/Dropdown.vue";
-import DropdownLink from "@/Components/DropdownLink.vue";
+import { Motion, Presence } from "motion/vue";
 import NavLink from "@/Components/NavLink.vue";
-import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 
 defineProps({
     title: String,
@@ -60,8 +58,54 @@ const logout = () => {
             <!-- <div
                 class="bg-gradient-to-r from-transparent from-1% via-accent/20 via-50% to-transparent to-99% h-[1px] mx-0"
             /> -->
-            <div class="bg-accent/20 h-[1px] mx-3" />
+            <!-- <div class="bg-accent/20 h-[1px] mx-3" /> -->
             <section class="flex flex-col h-full flex-1">
+                <nav
+                    class="flex flex-col gap-2 transition-all ease-in-out"
+                    :class="is_expanded ? 'mx-6' : 'mx-2'"
+                >
+                    <div
+                        class="group relative flex gap-2 items-center hover:bg-accent/5 px-2 py-1 rounded-md transition-all ease-out h-[2rem] border border-transparent active:bg-accent/10 active:border-accent/20"
+                    >
+                        <div
+                            class="flex items-center transition-all ease-in-out"
+                            :class="is_expanded ? 'gap-2' : 'justify-center'"
+                        >
+                            <Icon
+                                icon="basil:notification-solid"
+                                class="text-xl"
+                            />
+                            <div
+                                class="overflow-hidden transition-all ease-in-out"
+                                :class="is_expanded ? '' : 'text-transparent'"
+                            >
+                                <Presence>
+                                    <Motion
+                                        v-show="is_expanded"
+                                        tag="p"
+                                        :initial="false"
+                                        :animate="{ opacity: 1, scale: 1 }"
+                                        :exit="{ opacity: 0, translateX: -150 }"
+                                    >
+                                        Notificaciones
+                                    </Motion>
+                                </Presence>
+                                <!-- <p
+                    v-show="props.is_expanded"
+                    class="transition-all ease-in-out"
+                    :class="expandedClasses"
+                >
+                    {{ title }}
+                </p> -->
+                            </div>
+                        </div>
+                        <Icon
+                            icon="mi:select"
+                            class="absolute right-[8px] text-accent/50 transition-all ease-in-out"
+                            :class="is_expanded ? '' : 'hidden'"
+                        />
+                    </div>
+                </nav>
                 <nav
                     class="flex flex-col gap-2 transition-all ease-in-out"
                     :class="is_expanded ? 'mx-6' : 'mx-2'"
@@ -119,51 +163,92 @@ const logout = () => {
                 </nav>
                 <div class="bg-accent/20 h-[1px] mx-3 mt-auto mb-5" />
                 <nav
-                    class="flex items-center mx-6 mb-5"
-                    :class="is_expanded ? '' : 'flex-col'"
+                    class="flex items-center transition-all mb-5 ease-in-out"
+                    :class="is_expanded ? 'mx-6' : ''"
                 >
                     <Link
                         :href="route('profile.show')"
-                        class="flex items-center gap-2 max-w-[16ch] relative group hover:bg-accent/20 p-2 rounded-lg transition-all ease-in-out overflow-hidden"
-                        :class="
+                        class="flex items-center max-w-[16ch] min-w-[58px] relative group rounded-lg transition-all ease-in-out overflow-hidden"
+                        :class="[
                             route().current('profile.show')
                                 ? 'bg-accent/10 pointer-events-none border border-accent/20'
-                                : 'border border-transparent'
-                        "
+                                : 'border border-transparent',
+                            is_expanded
+                                ? 'p-2 gap-2 hover:bg-accent/20'
+                                : 'bg-transparent border border-transparent p-[7px] pointer-events-none',
+                        ]"
                     >
                         <img
-                            class="h-10 w-10 rounded-full object-cover"
+                            class="h-10 w-10 rounded-full object-cover transition-all ease-in-out"
                             :src="$page.props.auth.user.profile_photo_url"
                             :alt="$page.props.auth.user.name"
+                            :class="[
+                                route().current('profile.show') && !is_expanded
+                                    ? 'pointer-events-none outline outline-2 outline-accent/50 outline-offset-1 rounded-full'
+                                    : 'border border-transparent pointer-events-auto',
+                                is_expanded ? '' : 'hover:outline-accent/20',
+                            ]"
                         />
-                        <div
-                            class="overflow-hidden max-w-[10ch] transition-all ease-in-out"
-                            :class="
-                                is_expanded
-                                    ? ''
-                                    : 'text-transparent -ml-[10rem]'
-                            "
-                        >
-                            <div>
-                                <p class="text-sm font-medium overflow-hidden">
-                                    {{
-                                        $page.props.auth.user.name.split(" ")[0]
-                                    }}
-                                </p>
-                                <p class="text-xs text-accent/20">
-                                    {{ $page.props.auth.user.email }}
-                                </p>
-                            </div>
+                        <div class="overflow-hidden">
+                            <Presence>
+                                <Motion
+                                    v-show="is_expanded"
+                                    :initial="false"
+                                    :animate="{ opacity: 1, scale: 1 }"
+                                    :exit="{ opacity: 0, translateX: -150 }"
+                                >
+                                    <div
+                                        class="overflow-hidden max-w-[10ch] transition-all ease-in-out"
+                                        :class="
+                                            is_expanded
+                                                ? ''
+                                                : 'text-transparent -ml-[10rem]'
+                                        "
+                                    >
+                                        <p
+                                            class="text-sm font-medium overflow-hidden"
+                                        >
+                                            {{
+                                                $page.props.auth.user.name.split(
+                                                    " "
+                                                )[0]
+                                            }}
+                                        </p>
+                                        <p class="text-xs text-accent/20">
+                                            {{ $page.props.auth.user.email }}
+                                        </p>
+                                    </div>
+                                </Motion>
+                            </Presence>
                         </div>
                     </Link>
-                    <form @submit.prevent="logout">
-                        <button class="ml-2 flex">
-                            <Icon
-                                icon="ic:round-logout"
-                                class="transition-all ease-in-out rounded-md p-1 w-7 h-7 hover:scale-110 hover:bg-error/30 border border-transparent hover:border-accent/20"
-                            />
-                        </button>
-                    </form>
+                    <!-- <div
+                        class="bg-accent/20 h-[1px] mx-3"
+                        :class="is_expanded ? 'hidden' : ''"
+                    /> -->
+                    <div :class="is_expanded ? '' : 'hidden'">
+                        <Presence>
+                            <Motion
+                                v-show="is_expanded"
+                                :initial="false"
+                                :animate="{ opacity: 1, scale: 1 }"
+                                :exit="{ opacity: 0, scale: 0 }"
+                                class="overflow-hidden"
+                            >
+                                <form @submit.prevent="logout">
+                                    <button
+                                        class="flex overflow-hidden"
+                                        :class="is_expanded ? 'ml-2' : ''"
+                                    >
+                                        <Icon
+                                            icon="ic:round-logout"
+                                            class="transition-all ease-in-out rounded-md p-1 w-7 h-7 hover:scale-110 hover:bg-error/30 border border-transparent hover:border-accent/20"
+                                        />
+                                    </button>
+                                </form>
+                            </Motion>
+                        </Presence>
+                    </div>
                 </nav>
             </section>
         </aside>

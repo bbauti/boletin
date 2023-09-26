@@ -2,6 +2,7 @@
 import { computed } from "vue";
 import { Link } from "@inertiajs/vue3";
 import { Icon } from "@iconify/vue";
+import { Motion, Presence } from "motion/vue";
 
 const props = defineProps({
     href: String,
@@ -13,7 +14,7 @@ const props = defineProps({
 
 const classes = computed(() => {
     return props.active
-        ? "bg-accent/10 pointer-events-none translate-x-2 border border-accent/20"
+        ? "bg-accent/10 pointer-events-none  border border-accent/20"
         : "border-transparent";
 });
 
@@ -26,15 +27,21 @@ const expandedClasses = computed(() => {
 });
 
 const textExpandedClasses = computed(() => {
-    return props.is_expanded ? "" : "hover:translate-x-0 w-fit translate-x-0";
+    return props.is_expanded
+        ? "hover:translate-x-1"
+        : "hover:translate-x-0 translate-x-0";
 });
 </script>
 
 <template>
     <Link
-        class="group relative flex gap-2 items-center hover:bg-accent/20 px-2 py-1 rounded-md transition-all ease-out hover:translate-x-1 border"
+        :class="[
+            classes,
+            textExpandedClasses,
+            props.active && props.is_expanded ? 'translate-x-2' : '',
+        ]"
+        class="group relative flex gap-2 items-center hover:bg-accent/20 px-2 py-1 rounded-md transition-all ease-out border h-[2rem]"
         :href="href"
-        :class="[classes, textExpandedClasses]"
     >
         <div
             class="flex items-center transition-all ease-in-out"
@@ -45,9 +52,23 @@ const textExpandedClasses = computed(() => {
                 class="overflow-hidden transition-all ease-in-out"
                 :class="props.is_expanded ? '' : 'text-transparent'"
             >
-                <p class="transition-all ease-in-out" :class="expandedClasses">
+                <Presence>
+                    <Motion
+                        v-show="props.is_expanded"
+                        tag="p"
+                        :initial="false"
+                        :animate="{ opacity: 1, scale: 1 }"
+                        :exit="{ opacity: 0, translateX: -150 }"
+                        >{{ title }}</Motion
+                    >
+                </Presence>
+                <!-- <p
+                    v-show="props.is_expanded"
+                    class="transition-all ease-in-out"
+                    :class="expandedClasses"
+                >
                     {{ title }}
-                </p>
+                </p> -->
             </div>
         </div>
         <Icon

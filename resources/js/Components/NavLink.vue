@@ -40,7 +40,7 @@ const textExpandedClasses = computed(() => {
             textExpandedClasses,
             props.active && props.is_expanded ? 'translate-x-2' : '',
         ]"
-        class="group relative flex gap-2 items-center hover:bg-accent/20 px-2 py-1 rounded-md transition-all ease-out border h-[2rem]"
+        class="group relative flex gap-2 items-center hover:bg-accent/20 px-2 py-1 rounded-md transition-all ease-out border h-[2rem] select-none"
         :href="href"
     >
         <div

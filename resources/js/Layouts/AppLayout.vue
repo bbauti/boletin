@@ -44,7 +44,7 @@ const logout = () => {
             <div class="bg-red h-20 relative flex items-center">
                 <button
                     @click="toggleMenu"
-                    class="transition-all ease-in-out duration-300 absolute top-[10px] hover:bg-accent/20 rounded-sm w-8 h-8 grid place-items-center"
+                    class="transition-all ease-in-out duration-300 absolute top-[10px] hover:bg-accent/20 rounded-sm w-8 h-8 grid place-items-center select-none"
                     :class="is_expanded ? 'right-[10px]' : 'right-[12px]'"
                 >
                     <p
@@ -65,7 +65,7 @@ const logout = () => {
                     :class="is_expanded ? 'mx-6' : 'mx-2'"
                 >
                     <div
-                        class="group relative flex gap-2 items-center hover:bg-accent/5 px-2 py-1 rounded-md transition-all ease-out h-[2rem] border border-transparent active:bg-accent/10 active:border-accent/20"
+                        class="group relative flex gap-2 items-center hover:bg-accent/5 px-2 py-1 rounded-md transition-all ease-out h-[2rem] border border-transparent active:bg-accent/10 active:border-accent/20 select-none"
                     >
                         <div
                             class="flex items-center transition-all ease-in-out"
@@ -168,7 +168,7 @@ const logout = () => {
                 >
                     <Link
                         :href="route('profile.show')"
-                        class="flex items-center max-w-[16ch] min-w-[58px] relative group rounded-lg transition-all ease-in-out overflow-hidden"
+                        class="flex items-center max-w-[16ch] min-w-[58px] relative group rounded-lg transition-all ease-in-out overflow-hidden select-none"
                         :class="[
                             route().current('profile.show')
                                 ? 'bg-accent/10 pointer-events-none border border-accent/20'

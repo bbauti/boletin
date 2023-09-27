@@ -5,6 +5,8 @@ import { Icon } from "@iconify/vue";
 import { useDark, useToggle, useStorage } from "@vueuse/core";
 import { Motion, Presence } from "motion/vue";
 import NavLink from "@/Components/NavLink.vue";
+import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
+import { rollRight } from "@vueuse/motion";
 
 defineProps({
     title: String,
@@ -41,11 +43,31 @@ const logout = () => {
             class="w-full max-w-[230px] bg-secondary border-r border-accent/20 sticky top-0 h-[100dvh] max-h-[100dvh] flex flex-col transition-all ease-in-out"
             :class="is_expanded ? '' : 'max-w-[56px]'"
         >
-            <div class="bg-red h-20 relative flex items-center">
+            <div class="bg-red h-20 relative">
+                <div class="content">
+                    <p
+                        class="mt-4 flex text-xl tracking-wider font-bold transition-all ease-in-out select-none after:content-['.'] after:absolute after:transition-all after:ease-in-out relative"
+                        :class="
+                            is_expanded
+                                ? 'ml-[35px] after:left-[45px]'
+                                : 'ml-[15px] after:left-[12px]'
+                        "
+                    >
+                        S<span
+                            class="transition-all ease-in-out"
+                            :class="is_expanded ? '' : 'text-transparent'"
+                            >ilvi</span
+                        >
+                    </p>
+                </div>
                 <button
                     @click="toggleMenu"
-                    class="transition-all ease-in-out duration-300 absolute top-[10px] hover:bg-accent/20 rounded-sm w-8 h-8 grid place-items-center select-none"
-                    :class="is_expanded ? 'right-[10px]' : 'right-[12px]'"
+                    class="transition-all ease-in-out duration-300 absolute top-[10px] hover:bg-accent/20 rounded-sm w-8 h-8 grid place-items-center select-none border"
+                    :class="
+                        is_expanded
+                            ? 'right-[10px] border-transparent'
+                            : 'right-[-17px] bg-secondary border border-accent/20 hover:bg-secondary-content'
+                    "
                 >
                     <p
                         class="transition-all ease-in-out duration-400"
@@ -164,8 +186,35 @@ const logout = () => {
                 <div class="bg-accent/20 h-[1px] mx-3 mt-auto mb-5" />
                 <nav
                     class="flex items-center transition-all mb-5 ease-in-out"
-                    :class="is_expanded ? 'mx-6' : ''"
+                    :class="is_expanded ? 'mx-6' : 'flex-col'"
                 >
+                    <div :class="is_expanded ? 'hidden' : ''">
+                        <Presence>
+                            <Motion
+                                v-show="!is_expanded"
+                                :initial="false"
+                                :animate="{
+                                    opacity: 1,
+                                    scale: 1,
+                                    transition: { delay: 0.1 },
+                                }"
+                                :exit="{ opacity: 0, scale: 0 }"
+                                class="overflow-hidden"
+                            >
+                                <form @submit.prevent="logout">
+                                    <button
+                                        class="flex overflow-hidden"
+                                        :class="is_expanded ? 'ml-2' : ''"
+                                    >
+                                        <Icon
+                                            icon="ic:round-logout"
+                                            class="transition-all ease-in-out rounded-md p-1 w-7 h-7 hover:scale-110 hover:bg-error/30 border border-transparent hover:border-accent/20 m-[0.2rem]"
+                                        />
+                                    </button>
+                                </form>
+                            </Motion>
+                        </Presence>
+                    </div>
                     <Link
                         :href="route('profile.show')"
                         class="flex items-center max-w-[16ch] min-w-[58px] relative group rounded-lg transition-all ease-in-out overflow-hidden select-none"
@@ -231,7 +280,11 @@ const logout = () => {
                             <Motion
                                 v-show="is_expanded"
                                 :initial="false"
-                                :animate="{ opacity: 1, scale: 1 }"
+                                :animate="{
+                                    opacity: 1,
+                                    scale: 1,
+                                    transition: { delay: 0.1 },
+                                }"
                                 :exit="{ opacity: 0, scale: 0 }"
                                 class="overflow-hidden"
                             >
@@ -242,7 +295,7 @@ const logout = () => {
                                     >
                                         <Icon
                                             icon="ic:round-logout"
-                                            class="transition-all ease-in-out rounded-md p-1 w-7 h-7 hover:scale-110 hover:bg-error/30 border border-transparent hover:border-accent/20"
+                                            class="transition-all ease-in-out rounded-md p-1 w-7 h-7 hover:scale-110 hover:bg-error/30 border border-transparent hover:border-accent/20 m-[0.2rem]"
                                         />
                                     </button>
                                 </form>

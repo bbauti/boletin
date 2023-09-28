@@ -16,10 +16,10 @@ const submit = () => {
 </script>
 
 <script>
-import GeneralLayout from "@/Layouts/GeneralLayout.vue";
+import GuestLayout from "@/Layouts/GuestLayout.vue";
 
 export default {
-    layout: GeneralLayout,
+    layout: GuestLayout,
 };
 </script>
 

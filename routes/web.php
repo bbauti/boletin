@@ -31,4 +31,7 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('App/Dashboard');
     })->name('dashboard');
+    Route::get('/settings', function () {
+        return Inertia::render('App/Settings');
+    })->name('settings');
 });

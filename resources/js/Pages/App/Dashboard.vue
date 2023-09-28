@@ -4,10 +4,9 @@ import { Head } from "@inertiajs/vue3";
 
 <script>
 import AppLayout from "@/Layouts/AppLayout.vue";
-import GeneralLayout from "@/Layouts/GeneralLayout.vue";
 
 export default {
-    layout: [AppLayout, GeneralLayout],
+    layout: AppLayout,
 };
 </script>
 

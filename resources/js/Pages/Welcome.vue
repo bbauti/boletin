@@ -1,18 +1,12 @@
 <script setup>
+import GuestLayout from "@/Layouts/GuestLayout.vue";
 import { Head } from "@inertiajs/vue3";
 
 defineProps({
     canLogin: Boolean,
     canRegister: Boolean,
 });
-</script>
-
-<script>
-import GuestLayout from "@/Layouts/GuestLayout.vue";
-
-export default {
-    layout: GuestLayout,
-};
+defineLayout(GuestLayout);
 </script>
 
 <template>

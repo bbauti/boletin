@@ -1,4 +1,5 @@
 <script setup>
+import AppLayout from "@/Layouts/AppLayout.vue";
 import { Head } from "@inertiajs/vue3";
 import DeleteUserForm from "@/Pages/Profile/Partials/DeleteUserForm.vue";
 import LogoutOtherBrowserSessionsForm from "@/Pages/Profile/Partials/LogoutOtherBrowserSessionsForm.vue";
@@ -10,14 +11,8 @@ defineProps({
     confirmsTwoFactorAuthentication: Boolean,
     sessions: Array,
 });
-</script>
 
-<script>
-import AppLayout from "@/Layouts/AppLayout.vue";
-
-export default {
-    layout: AppLayout,
-};
+defineLayout(AppLayout);
 </script>
 
 <template>

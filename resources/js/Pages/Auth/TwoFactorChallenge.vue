@@ -1,4 +1,5 @@
 <script setup>
+import GuestLayout from "@/Layouts/GuestLayout.vue";
 import { nextTick, ref } from "vue";
 import { Head, useForm } from "@inertiajs/vue3";
 import { Icon } from "@iconify/vue";
@@ -30,14 +31,7 @@ const toggleRecovery = async () => {
 const submit = () => {
     form.post(route("two-factor.login"));
 };
-</script>
-
-<script>
-import GuestLayout from "@/Layouts/GuestLayout.vue";
-
-export default {
-    layout: GuestLayout,
-};
+defineLayout(GuestLayout);
 </script>
 
 <template>

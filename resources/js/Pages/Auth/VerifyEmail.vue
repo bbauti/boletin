@@ -1,4 +1,5 @@
 <script setup>
+import GuestLayout from "@/Layouts/GuestLayout.vue";
 import { computed } from "vue";
 import { Head, Link, useForm } from "@inertiajs/vue3";
 import { Icon } from "@iconify/vue";
@@ -16,14 +17,7 @@ const submit = () => {
 const verificationLinkSent = computed(
     () => props.status === "verification-link-sent"
 );
-</script>
-
-<script>
-import GuestLayout from "@/Layouts/GuestLayout.vue";
-
-export default {
-    layout: GuestLayout,
-};
+defineLayout(GuestLayout);
 </script>
 
 <template>

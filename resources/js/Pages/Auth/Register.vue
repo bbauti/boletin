@@ -1,4 +1,5 @@
 <script setup>
+import GuestLayout from "@/Layouts/GuestLayout.vue";
 import { Head, Link, useForm } from "@inertiajs/vue3";
 
 import { Icon } from "@iconify/vue";
@@ -42,14 +43,8 @@ useIntervalFn(() => {
 }, 10000);
 
 const text = computed(() => sel.value);
-</script>
 
-<script>
-import GuestLayout from "@/Layouts/GuestLayout.vue";
-
-export default {
-    layout: GuestLayout,
-};
+defineLayout(GuestLayout);
 </script>
 
 <template>

@@ -1,5 +1,4 @@
 <script setup>
-import AppLayout from "@/Layouts/AppLayout.vue";
 import { Head } from "@inertiajs/vue3";
 import { ref } from "vue";
 import { Switch } from "@headlessui/vue";
@@ -16,7 +15,14 @@ const toggleDark = () => {
     document.startViewTransition(useToggle(isDark));
 };
 
-defineLayout(AppLayout);
+</script>
+
+<script>
+import AppLayout from "@/Layouts/AppLayout.vue";
+
+export default {
+    layout: AppLayout,
+}
 </script>
 
 <template>

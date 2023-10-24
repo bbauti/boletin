@@ -1,8 +1,13 @@
 <script setup>
 import { Head } from "@inertiajs/vue3";
+</script>
+
+<script>
 import AppLayout from "@/Layouts/AppLayout.vue";
 
-defineLayout(AppLayout);
+export default {
+    layout: AppLayout,
+}
 </script>
 
 <template>

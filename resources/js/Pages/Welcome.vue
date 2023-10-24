@@ -6,7 +6,15 @@ defineProps({
     canLogin: Boolean,
     canRegister: Boolean,
 });
-defineLayout(GuestLayout);
+</script>
+
+<script>
+import GuestLayout from "@/Layouts/GuestLayout.vue";
+
+export default {
+
+  layout: GuestLayout,
+}
 </script>
 
 <template>

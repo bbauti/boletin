@@ -1,5 +1,4 @@
 <script setup>
-import GuestLayout from "@/Layouts/GuestLayout.vue";
 import { Head, Link, useForm } from "@inertiajs/vue3";
 
 const props = defineProps({
@@ -19,7 +18,15 @@ const submit = () => {
         onFinish: () => form.reset("password", "password_confirmation"),
     });
 };
-defineLayout(GuestLayout);
+</script>
+
+<script>
+import GuestLayout from "@/Layouts/GuestLayout.vue";
+
+export default {
+
+  layout: GuestLayout,
+}
 </script>
 
 <template>

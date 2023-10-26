@@ -136,7 +136,7 @@ const logout = () => {
                     :class="is_expanded ? 'mx-6' : 'mx-2'"
                 >
                     <p
-                        class="text-sm text-accent/30 font-medium uppercase tracking-wide mt-4 mb-2 select-none"
+                        class="text-sm text-accent/30 font-medium uppercase tracking-wide mt-4 mb-2 select-none overflow-hidden"
                     >
                         Principal
                     </p>
@@ -167,7 +167,7 @@ const logout = () => {
                     :class="is_expanded ? 'mx-6' : 'mx-2'"
                 >
                     <p
-                        class="text-sm text-accent/30 font-medium uppercase tracking-wide mt-4 mb-2 select-none"
+                        class="text-sm text-accent/30 font-medium uppercase tracking-wide mt-4 mb-2 select-none overflow-hidden"
                     >
                         Otro
                     </p>

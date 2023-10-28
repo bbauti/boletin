@@ -4,6 +4,8 @@ import { ref } from "vue";
 import { Switch } from "@headlessui/vue";
 import { useDark, useToggle } from "@vueuse/core";
 
+import Warning from "@/Components/Warning.vue";
+
 const isDark = useDark({
     selector: "html",
     attribute: "data-theme",
@@ -27,8 +29,9 @@ export default {
 
 <template>
     <Head title="Ajustes" />
+    <Warning/>
     <div class="py-12">
-        <p>ajustes</p>
+        <p class="mb-5">Ajustes de aplicacion</p>
         <label class="swap swap-rotate ml-auto mr-2">
             <input
                 type="checkbox"

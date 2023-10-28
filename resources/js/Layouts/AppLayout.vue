@@ -309,7 +309,7 @@ const logout = () => {
             </section>
         </aside>
         <!-- Page Content -->
-        <section>
+        <section class="w-full">
             <!-- <nav
                 class="h-12 w-full bg-secondary/90 border-b border-accent/20 sticky top-0 backdrop-blur-[2px] flex items-center overflow-hidden"
             >

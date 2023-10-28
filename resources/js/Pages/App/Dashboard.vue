@@ -1,5 +1,6 @@
 <script setup>
 import { Head } from "@inertiajs/vue3";
+import Warning from "@/Components/Warning.vue";
 </script>
 
 <script>
@@ -12,7 +13,8 @@ export default {
 
 <template>
     <Head title="Dashboard" />
+    <Warning/>
     <div class="py-12">
-        <p>hola</p>
+        <p>Estadisticas escolares.</p>
     </div>
 </template>

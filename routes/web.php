@@ -22,12 +22,16 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/no-course', function () {
+    return Inertia::render('WaitCourse');
+})->name('no-course');
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
+    'check.course'
 ])->group(function () {
-
     Route::get('/dashboard', function () {
         return Inertia::render('App/Dashboard');
     })->name('dashboard');

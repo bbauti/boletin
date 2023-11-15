@@ -169,7 +169,7 @@ const clearPhotoFileInput = () => {
             <!-- Email -->
             <div class="form-control col-span-6 sm:col-span-4">
                 <label class="label" for="email">
-                    <span class="label-text">Nombre</span>
+                    <span class="label-text">Email</span>
                 </label>
                 <input
                     class="input input-bordered w-full"
@@ -213,6 +213,10 @@ const clearPhotoFileInput = () => {
                     Se ha enviado un nuevo enlace de verificación a su dirección
                     de correo electrónico.
                 </div>
+                
+            </div>
+            <div class="col-span-6 sm:col-span-4">
+                <p>Tu rol es: {{ user.role == 'teacher' ? 'Docente' : user.role == 'student' ? 'Estudiante' : '' }}</p>
             </div>
         </template>
 

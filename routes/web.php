@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\MyStudentsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,4 +39,14 @@ Route::middleware([
     Route::get('/settings', function () {
         return Inertia::render('App/Settings');
     })->name('settings');
+    
+});
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+    'check.teacher'
+])->group(function () {
+    Route::get('/my-students', [MyStudentsController::class, 'show'])->name('my-students');
 });

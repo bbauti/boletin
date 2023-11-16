@@ -161,6 +161,13 @@ const logout = () => {
                         title="Calificaciones"
                         icon="fa6-solid:file-pen"
                     />
+                    <NavLink
+                        :href="route('my-students')"
+                        :active="route().current('my-students')"
+                        :is_expanded="is_expanded"
+                        title="Estudiantes"
+                        icon="fa6-solid:file-pen"
+                    />
                 </nav>
                 <nav
                     class="flex flex-col gap-2 transition-all ease-in-out"

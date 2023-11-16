@@ -1,4 +1,7 @@
 <script setup>
+
+// TODO: Comprobar si el email ya se verifico y redirijir al inicio del dash
+
 import { computed } from "vue";
 import { Head, Link, useForm } from "@inertiajs/vue3";
 import { Icon } from "@iconify/vue";

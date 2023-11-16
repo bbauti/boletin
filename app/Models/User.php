@@ -61,6 +61,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function hasCourse()
     {
-        return $this->course !== null;
+        return $this->course_id !== null;
     }
 }

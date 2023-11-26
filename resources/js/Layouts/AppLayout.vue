@@ -166,7 +166,7 @@ const logout = () => {
                         :active="route().current('my-students')"
                         :is_expanded="is_expanded"
                         title="Estudiantes"
-                        icon="fa6-solid:file-pen"
+                        icon="fluent:clipboard-bullet-list-20-filled"
                     />
                 </nav>
                 <nav

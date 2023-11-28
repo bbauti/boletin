@@ -4,33 +4,47 @@
 
 import { Head, router } from "@inertiajs/vue3";
 import { toast } from "vue-sonner";
-import { toRaw, ref } from 'vue';
+import { ref } from 'vue';
 import { Icon } from "@iconify/vue";
 import DialogModal from '@/Components/DialogModal.vue';
-import Swal from 'sweetalert2'
 
 const { users, courses, classrooms } = defineProps({ users: Object, courses: Object, classrooms: Object })
 
-const usersArray = ref(toRaw(users))
-const coursesArray = ref(toRaw(courses))
-const classroomsArray = ref(toRaw(classrooms))
-
 const displayingCourse = ref(false);
+
+courses.forEach(course => {
+    course.originalState = { ...course };
+});
 
 let isChecked = false;
 
 const editRow = (course) => {
     if (course.isEditing) {
-        console.log('guardar')
+        const { originalState, ...currentCourse } = course;
+        const data = {
+            course_name: course.course_name,
+            academic_year: parseInt(course.academic_year),
+            in_charge: parseInt(course.in_charge),
+            assigned_classroom: parseInt(course.assigned_classroom),
+        }
+        // TODO: controlar duplicacion en el frontend
+        axios.put(`/api/courses/update-course/${course.id}`, data)
+        .then(function (response) {
+            if (response.data.status !== 'duplicated') {
+                toast.success(`Se modifico el curso ${data.course_name}.`);
+                router.reload({ only: ['courses'] })
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
         course.isEditing = !course.isEditing
         return
     }
-    const currentEditing = courses.find(course => course.isEditing === true)
     course.isEditing = !course.isEditing
 }
 
 const deleteRow = (courseId) => {
-    console.log('hola')
     document.querySelector(`#modal${courseId}`).showModal()
     isModalOpen = true
 }
@@ -56,7 +70,6 @@ const createCourse = () => {
         in_charge: parseInt(form.querySelector('#in_charge').value),
         assigned_classroom: parseInt(form.querySelector('#assigned_classroom').value),
     }
-    console.log(data)
     axios.post(`/api/courses/create-course`, data)
     .then(function (response) {
         toast.warning(`Se creo el curso ${data.course_name}.`);
@@ -117,7 +130,7 @@ export default {
                                         <span class="label-text">A cargo</span>
                                     </label>
                                     <select id="in_charge" class="select select-bordered" >
-                                        <option v-for='user in usersArray' :value="user.id">{{ user.name }}</option>
+                                        <option v-for='user in users' :value="user.id">{{ user.name }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -133,7 +146,7 @@ export default {
                                         <span class="label-text">Aula</span>
                                     </label>
                                     <select id="assigned_classroom" class="select select-bordered">
-                                        <option v-for='classroom in classroomsArray' :value="classroom.id">{{ classroom.classroom_name }}</option>
+                                        <option v-for='classroom in classrooms' :value="classroom.id">{{ classroom.classroom_name }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -173,20 +186,20 @@ export default {
                         </th>
                         <td>
                         <div class="flex items-center gap-3">
-                            <input class="input" :class="course.isEditing ? 'input-bordered' : 'input-ghost pointer-events-none'" :style="`width: ${course.course_name.length+4}ch`" type="text" :value="course.course_name">
+                            <input class="input" :class="course.isEditing ? 'input-bordered' : 'input-ghost pointer-events-none'" :style="`width: ${course.course_name.length+4}ch`" type="text" v-model="course.course_name">
                         </div>
                         </td>
                         <td>
-                            <select class="select" :class="course.isEditing ? 'select-bordered' : 'select-ghost pointer-events-none bg-none'" >
-                                <option v-for='user in usersArray' :selected="user.id === course.in_charge" :value="user.id">{{ user.name }}</option>
+                            <select class="select" :class="course.isEditing ? 'select-bordered' : 'select-ghost pointer-events-none bg-none'" v-model="course.in_charge">
+                                <option v-for='user in users' :selected="user.id === course.in_charge" :value="user.id">{{ user.name }}</option>
                             </select>
                         </td>
                         <td>
-                            <input class="input" :class="course.isEditing ? 'input-bordered' : 'input-ghost pointer-events-none'" :style="`width: ${course.academic_year.toString().length+4}ch`" type="text" :value="course.academic_year">
+                            <input class="input" :class="course.isEditing ? 'input-bordered' : 'input-ghost pointer-events-none'" :style="`width: ${course.academic_year.toString().length+4}ch`" type="text" v-model="course.academic_year">
                         </td>
                         <td>
-                            <select class="select" :class="course.isEditing ? 'select-bordered' : 'select-ghost pointer-events-none bg-none'" >
-                                <option v-for='classroom in classroomsArray' :selected="classroom.id === course.assigned_classroom" :value="classroom.id">{{ classroom.classroom_name }}</option>
+                            <select class="select" :class="course.isEditing ? 'select-bordered' : 'select-ghost pointer-events-none bg-none'" v-model="course.assigned_classroom">
+                                <option v-for='classroom in classrooms' :selected="classroom.id === course.assigned_classroom" :value="classroom.id">{{ classroom.classroom_name }}</option>
                             </select>
                         </td>
                         <td>

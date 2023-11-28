@@ -26,6 +26,7 @@ Route::put('/users/{id}/update-role', [UserController::class, 'updateRole']);
 
 Route::delete('/courses/{id}/delete-course', [MyCoursesController::class, 'deleteCourse']);
 Route::post('/courses/create-course', [MyCoursesController::class, 'createCourse']);
+Route::put('/courses/update-course/{id}', [MyCoursesController::class, 'updateCourse']);
 
 Route::put('/classrooms/create-classroom', [MyClassroomsController::class, 'createClassroom']);
 

@@ -72,4 +72,32 @@ class MyCoursesController extends Controller
             'type' => 'delete'
         ]);
     }
+    public function updateCourse(Request $request, $id)
+    {
+        $course = Course::find($id);
+
+        if (!$course) {
+            return response()->json(['message' => 'Course not found'], 404);
+        }
+
+        // TODO: hacer dinamico
+        if ($course->academic_year === $request->academic_year &&
+            $course->assigned_classroom === $request->assigned_classroom &&
+            $course->course_name === $request->course_name &&
+            $course->in_charge === $request->in_charge) {
+                return response()->json([
+                    'status' => 'duplicated',
+                    'type' => 'update',
+                ]);
+            }
+
+        $course->update($request->all());
+
+        return response()->json([
+            'request' => $request->all(),
+            'course' => $course,
+            'status' => 'success',
+            'type' => 'update',
+        ]);
+    }
 }

@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MyCoursesController;
+use App\Http\Controllers\MyClassroomsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +22,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::put('/users/{id}/update-course', [UserController::class, 'updateCourse']);
+Route::put('/users/{id}/update-role', [UserController::class, 'updateRole']);
+
+Route::delete('/courses/{id}/delete-course', [MyCoursesController::class, 'deleteCourse']);
+Route::post('/courses/create-course', [MyCoursesController::class, 'createCourse']);
+
+Route::put('/classrooms/create-classroom', [MyClassroomsController::class, 'createClassroom']);
+

@@ -27,7 +27,11 @@
         "@vueuse/motion": "^2.0.0",
         "momentum-layout": "^0.1.0",
         "motion": "^10.16.4",
+        "sweetalert2": "^11.10.1",
         "tailwindcss-animated": "^1.0.1",
-        "vue-sonner": "^1.0.2"
+        "vue-final-modal": "^4.4.6",
+        "vue-multiselect": "^2.1.8",
+        "vue-sonner": "^1.0.2",
+        "vuejs-confirm-dialog": "^0.5.1"
     }
 }

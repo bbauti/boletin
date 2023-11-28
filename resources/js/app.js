@@ -6,6 +6,7 @@ import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import { MotionPlugin } from '@vueuse/motion'
+import * as ConfirmDialog from 'vuejs-confirm-dialog'
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -16,6 +17,7 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(MotionPlugin)
             .use(plugin)
+            .use(ConfirmDialog)
             .use(ZiggyVue)
             .mount(el);
     },

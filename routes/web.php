@@ -4,6 +4,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\MyStudentsController;
+use App\Http\Controllers\MyCoursesController;
+use App\Http\Controllers\MyClassroomsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,4 +51,6 @@ Route::middleware([
     'check.teacher'
 ])->group(function () {
     Route::get('/my-students', [MyStudentsController::class, 'show'])->name('my-students');
+    Route::get('/my-courses', [MyCoursesController::class, 'show'])->name('my-courses');
+    Route::get('/my-classrooms', [MyClassroomsController::class, 'show'])->name('my-classrooms');
 });

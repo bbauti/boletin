@@ -30,6 +30,7 @@ const form = reactive({
 const passwordInput = ref(null);
 
 const startConfirmingPassword = () => {
+    console.log('startConfirmingPassword')
     axios.get(route("password.confirmation")).then((response) => {
         if (response.data.confirmed) {
             emit("confirmed");

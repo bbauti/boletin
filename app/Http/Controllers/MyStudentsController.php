@@ -14,6 +14,8 @@ class MyStudentsController extends Controller
             'users' => User::where('role', 'student')->get()->map(function ($user) {
                 return [
                     'id' => $user->id,
+                    'course_id' => $user->course_id,
+                    'role' => $user->role,
                     'name' => $user->name,
                     'email' => $user->email,
                     'avatar' => $user->profile_photo_url,

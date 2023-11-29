@@ -174,7 +174,7 @@ export default {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="course in courses">
+                    <tr v-for="course in courses" :class="course.assigned_classroom === null ? 'bg-error/10' : ''">
                         <th>
                             <label>
                                 <input type="checkbox" class="checkbox" :checked="isChecked" @change="unCheck" />

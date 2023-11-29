@@ -8,6 +8,8 @@ use App\Models\Classroom;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
+use function PHPUnit\Framework\isEmpty;
+
 class MyCoursesController extends Controller
 {
     public function show()
@@ -65,11 +67,14 @@ class MyCoursesController extends Controller
         ]); */
 
         // Create a new course
+        if (isEmpty($request->assigned_classroom)) {
+            $request->assigned_classroom = null;
+        }
         Course::create($request->all());
 
         return response()->json([
             'status' => 'success',
-            'type' => 'delete'
+            'type' => 'create'
         ]);
     }
     public function updateCourse(Request $request, $id)

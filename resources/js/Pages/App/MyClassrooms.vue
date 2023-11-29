@@ -12,6 +12,8 @@ defineProps({ classrooms: Object })
 
 let isChecked = false;
 
+const displayingClassroom = ref(false);
+
 const editRow = (classroom) => {
     if (classroom.isEditing) {
         const data = {
@@ -40,9 +42,9 @@ const deleteRow = (classroomId) => {
 }
 
 const confirmDelete = (classroom) => {
-    axios.delete(`/api/classroomss/${classroom.id}/delete-classroom`)
+    axios.delete(`/api/classrooms/${classroom.id}/delete-classroom`)
     .then(function (response) {
-        toast.warning(`Se elimino el curso ${classroom.classroom_name}.`);
+        toast.warning(`Se elimino el aula ${classroom.classroom_name}.`);
     })
     .catch(function (error) {
         console.log(error);
@@ -50,6 +52,22 @@ const confirmDelete = (classroom) => {
     document.querySelector(`#modal${classroom.id}`).close()
     classroom.isEditing = !classroom.isEditing
     router.reload({ only: ['classrooms'] })
+}
+
+const createClassroom = () => {
+    const form = document.querySelector('#createClassroomForm')
+    const data = {
+        classroom_name: form.querySelector('#classroom_name').value,
+    }
+    axios.post(`/api/classrooms/create-classroom`, data)
+    .then(function (response) {
+        toast.warning(`Se creo el aula ${data.classroom_name}.`);
+        router.reload({ only: ['classrooms'] })
+        displayingClassroom.value = false
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
 }
 
 const checkAll = (e) => {
@@ -75,10 +93,36 @@ export default {
 </script>
 
 <template>
-    <Head title="Mis Cursos" />
+    <Head title="Mis aulas" />
     <div class="py-12">
         <p class="mb-5">Aulas</p>
         <div class="overflow-x-auto">
+            <button class="btn btn-accent mb-5" @click="displayingClassroom = true">Crear un aula</button>
+            <DialogModal :show="displayingClassroom" @close="displayingClassroom = false" class="w-fit">
+                <template #title>
+                    Crear un aula
+                </template>
+
+                <template #content>
+                    <div class="">
+                        <form class="flex gap-5" id="createClassroomForm">
+                            <div class="form-control w-full max-w-xs">
+                                <label class="label">
+                                    <span class="label-text">Nombre</span>
+                                </label>
+                                <input type="text" id="classroom_name" class="input input-bordered w-full max-w-xs" />
+                            </div>
+                        </form>
+                    </div>
+                </template>
+
+                <template #footer>
+                    <div class="w-full flex justify-between">
+                        <button class="btn btn-success" @click="createClassroom">Crear aula</button>
+                        <button class="btn btn-off" @click="displayingClassroom = false">Cancelar</button>
+                    </div>
+                </template>
+            </DialogModal>
             <table class="table max-w-xs">
                 <thead>
                     <tr>
@@ -121,10 +165,9 @@ export default {
                                 <dialog :id="`modal${classroom.id}`" class="modal modal-bottom sm:modal-middle">
                                     <div class="modal-box">
                                         <h3 class="font-bold text-lg">Seguro que desea eliminar esta aula?</h3>
-                                        <p class="pt-4">Eliminar esta aula eliminara los cursos que la usen, y eliminara de esos cursos a los usuarios que formen parte de ellos</p>
-                                        <p class="py-2 pb-4 text-error">Esta accion no es reversible</p>
+                                        <p class="py-2 text-error">Esta accion no es reversible</p>
                                         <div class="modal-action flex justify-between">
-                                        <button class="btn btn-error" @click="confirmDelete(classroom)">Eliminar curso</button>
+                                        <button class="btn btn-error" @click="confirmDelete(classroom)">Eliminar aula</button>
                                             <form method="dialog">
                                                 <button class="btn btn-off">Cancelar</button>
                                             </form>

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('course_name');
             $table->year('academic_year');
             $table->foreignId('in_charge')->constrained('users');
-            $table->foreignId('assigned_classroom')->constrained('classrooms');
+            $table->foreignId('assigned_classroom')->nullable()->constrained('classrooms');
             $table->timestamps();
         });
     }

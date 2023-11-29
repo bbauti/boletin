@@ -29,6 +29,6 @@ Route::post('/courses/create-course', [MyCoursesController::class, 'createCourse
 Route::put('/courses/update-course/{id}', [MyCoursesController::class, 'updateCourse']);
 
 Route::delete('/classrooms/{id}/delete-classroom', [MyClassroomsController::class, 'deleteClassroom']);
-Route::put('/classrooms/create-classroom', [MyClassroomsController::class, 'createClassroom']);
+Route::post('/classrooms/create-classroom', [MyClassroomsController::class, 'createClassroom']);
 Route::put('/classrooms/update-classroom/{id}', [MyClassroomsController::class, 'updateClassroom']);
 

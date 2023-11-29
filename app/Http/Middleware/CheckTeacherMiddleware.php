@@ -19,7 +19,8 @@ class CheckTeacherMiddleware
         $role = Auth::user()->role;
         if ($role == "teacher") {
             return $next($request);
+        } else {
+            return redirect()->route('dashboard');
         }
-
     }
 }

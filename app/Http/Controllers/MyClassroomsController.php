@@ -28,7 +28,7 @@ class MyClassroomsController extends Controller
         if (!$classroom) {
             return response()->json(['message' => 'Classroom not found'], 404);
         }
-        Course::where('classroom_id', $classroom->id)->update(['classroom_id' => null]);
+        Course::where('assigned_classroom', $classroom->id)->update(['assigned_classroom' => null]);
         $classroom->delete();
 
         return response()->json([
@@ -59,6 +59,23 @@ class MyClassroomsController extends Controller
         return response()->json([
             'status' => 'success',
             'type' => 'update',
+        ]);
+    }
+    public function createClassroom(Request $request)
+    {
+        // Validate the incoming request
+        /* $request->validate([
+            'course_name' => 'required|string',
+            'academic_year' => 'required|numeric',
+            'in_charge' => 'required|string',
+            'assigned_classroom' => 'required|string',
+        ]); */
+
+        Classroom::create($request->all());
+
+        return response()->json([
+            'status' => 'success',
+            'type' => 'create'
         ]);
     }
 }

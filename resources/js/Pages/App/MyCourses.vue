@@ -141,6 +141,7 @@ export default {
                                         <span class="label-text">Aula</span>
                                     </label>
                                     <select id="assigned_classroom" class="select select-bordered">
+                                        <option value="">Aula</option>
                                         <option v-for='classroom in classrooms' :value="classroom.id">{{ classroom.classroom_name }}</option>
                                     </select>
                                 </div>

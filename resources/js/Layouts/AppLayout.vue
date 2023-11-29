@@ -147,21 +147,21 @@ const logout = () => {
                         title="Dashboard"
                         icon="ic:baseline-analytics"
                     />
-                    <NavLink
+                    <NavLink v-if="$page.props.auth.user.role === 'teacher'"
                         :href="route('my-students')"
                         :active="route().current('my-students')"
                         :is_expanded="is_expanded"
                         title="Estudiantes"
                         icon="fluent:clipboard-bullet-list-20-filled"
                     />
-                    <NavLink
+                    <NavLink v-if="$page.props.auth.user.role === 'teacher'"
                         :href="route('my-courses')"
                         :active="route().current('my-courses')"
                         :is_expanded="is_expanded"
                         title="Cursos"
                         icon="ic:round-school"
                     />
-                    <NavLink
+                    <NavLink v-if="$page.props.auth.user.role === 'teacher'"
                         :href="route('my-classrooms')"
                         :active="route().current('my-classrooms')"
                         :is_expanded="is_expanded"

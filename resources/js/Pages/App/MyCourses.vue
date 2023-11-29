@@ -12,15 +12,10 @@ const { users, courses, classrooms } = defineProps({ users: Object, courses: Obj
 
 const displayingCourse = ref(false);
 
-courses.forEach(course => {
-    course.originalState = { ...course };
-});
-
 let isChecked = false;
 
 const editRow = (course) => {
     if (course.isEditing) {
-        const { originalState, ...currentCourse } = course;
         const data = {
             course_name: course.course_name,
             academic_year: parseInt(course.academic_year),
@@ -180,14 +175,14 @@ export default {
                 <tbody>
                     <tr v-for="course in courses">
                         <th>
-                        <label>
-                            <input type="checkbox" class="checkbox" :checked="isChecked" @change="unCheck" />
-                        </label>
+                            <label>
+                                <input type="checkbox" class="checkbox" :checked="isChecked" @change="unCheck" />
+                            </label>
                         </th>
                         <td>
-                        <div class="flex items-center gap-3">
-                            <input class="input" :class="course.isEditing ? 'input-bordered' : 'input-ghost pointer-events-none'" :style="`width: ${course.course_name.length+4}ch`" type="text" v-model="course.course_name">
-                        </div>
+                            <div class="flex items-center gap-3">
+                                <input class="input" :class="course.isEditing ? 'input-bordered' : 'input-ghost pointer-events-none'" :style="`width: ${course.course_name.length+4}ch`" type="text" v-model="course.course_name">
+                            </div>
                         </td>
                         <td>
                             <select class="select" :class="course.isEditing ? 'select-bordered' : 'select-ghost pointer-events-none bg-none'" v-model="course.in_charge">

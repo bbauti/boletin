@@ -2,37 +2,55 @@
 
 // TODO: agregar paginacion
 
-import { Head } from "@inertiajs/vue3";
+import { Head, router } from "@inertiajs/vue3";
 import { toast } from "vue-sonner";
-import { toRaw } from 'vue';
+import { ref } from 'vue';
+import { Icon } from "@iconify/vue";
+import DialogModal from '@/Components/DialogModal.vue';
 
-const classrooms = defineProps({ classrooms: Object })
-
-const classroomsArray = toRaw(classrooms)
+defineProps({ classrooms: Object })
 
 let isChecked = false;
 
-const changeCourse = (e) => {
-    const courseId = parseInt(e.target.value)
-    const userId = parseInt(e.target.dataset.user)
-    const data = {
-        course: courseId,
-    }
-    axios.put(`/api/users/${userId}/update-course`, data)
-    .then(function (response) {
-        const updatedUser = usersArray.find(user => user.id === userId)
-        if (response.data.type === 'remove') {
-            toast.warning(`Se removio al alumno ${updatedUser.name} de su curso.`);
-        } else {
-            const updatedCourse = coursesArray.find(course => course.id === courseId)
-            toast.success(`Se le asigno el curso ${updatedCourse.course_name} al alumno ${updatedUser.name}.`);
+const editRow = (classroom) => {
+    if (classroom.isEditing) {
+        const data = {
+            classroom_name: classroom.classroom_name,
         }
+        // TODO: controlar duplicacion en el frontend
+        axios.put(`/api/classrooms/update-classroom/${classroom.id}`, data)
+        .then(function (response) {
+            if (response.data.status !== 'duplicated') {
+                toast.success(`Se modifico el aula ${data.classroom_name}.`);
+                router.reload({ only: ['classrooms'] })
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+        classroom.isEditing = !classroom.isEditing
+        return
+    }
+    classroom.isEditing = !classroom.isEditing
+}
+
+const deleteRow = (classroomId) => {
+    document.querySelector(`#modal${classroomId}`).showModal()
+    isModalOpen = true
+}
+
+const confirmDelete = (classroom) => {
+    axios.delete(`/api/classroomss/${classroom.id}/delete-classroom`)
+    .then(function (response) {
+        toast.warning(`Se elimino el curso ${classroom.classroom_name}.`);
     })
     .catch(function (error) {
         console.log(error);
     });
+    document.querySelector(`#modal${classroom.id}`).close()
+    classroom.isEditing = !classroom.isEditing
+    router.reload({ only: ['classrooms'] })
 }
-
 
 const checkAll = (e) => {
     const inputs = document.querySelectorAll('input[type="checkbox"]:not(#mainCheckbox)')
@@ -61,7 +79,7 @@ export default {
     <div class="py-12">
         <p class="mb-5">Aulas</p>
         <div class="overflow-x-auto">
-            <table class="table">
+            <table class="table max-w-xs">
                 <thead>
                     <tr>
                         <th>
@@ -70,6 +88,7 @@ export default {
                         </label>
                         </th>
                         <th>Aula</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -80,9 +99,39 @@ export default {
                         </label>
                         </th>
                         <td>
-                        <div class="flex items-center gap-3">
-                            <div class="font-bold">{{ classroom.classroom_name }}</div>
-                        </div>
+                            <div class="flex items-center gap-3">
+                                <input class="input" :class="classroom.isEditing ? 'input-bordered' : 'input-ghost pointer-events-none'" :style="`width: ${classroom.classroom_name.length+4}ch`" type="text" v-model="classroom.classroom_name">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="flex flex-row-reverse">
+                                <button class="!p-2 w-fit btn btn-square transiton-all ease-in-out" :class="classroom.isEditing ? 'btn-success' : 'btn-ghost'" @click="editRow(classroom)">
+                                    <Icon
+                                        class="text-xl"
+                                        :icon="classroom.isEditing ? 'bxs:save' : 'clarity:pencil-solid'"
+                                    />
+                                </button>
+                                <button class="!p-2 w-fit btn btn-square mr-2 transiton-all ease-in-out" :class="classroom.isEditing ? 'btn-error' : 'btn-ghost invisible'" @click="deleteRow(classroom.id)">
+                                    <Icon
+                                        class="text-xl"
+                                        icon="iconamoon:trash-fill"
+                                    />
+                                </button>
+                                <!-- TODO: Hacer dinamico -->
+                                <dialog :id="`modal${classroom.id}`" class="modal modal-bottom sm:modal-middle">
+                                    <div class="modal-box">
+                                        <h3 class="font-bold text-lg">Seguro que desea eliminar esta aula?</h3>
+                                        <p class="pt-4">Eliminar esta aula eliminara los cursos que la usen, y eliminara de esos cursos a los usuarios que formen parte de ellos</p>
+                                        <p class="py-2 pb-4 text-error">Esta accion no es reversible</p>
+                                        <div class="modal-action flex justify-between">
+                                        <button class="btn btn-error" @click="confirmDelete(classroom)">Eliminar curso</button>
+                                            <form method="dialog">
+                                                <button class="btn btn-off">Cancelar</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </dialog>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -90,6 +139,7 @@ export default {
                     <tr>
                         <th></th>
                         <th>Aula</th>
+                        <th>Acciones</th>
                     </tr>
                 </tfoot>
             </table>

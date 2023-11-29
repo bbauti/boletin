@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Course;
 use App\Models\Classroom;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class MyClassroomsController extends Controller
@@ -16,6 +19,46 @@ class MyClassroomsController extends Controller
                     'classroom_name' => $classroom->classroom_name,
                 ];
             }),
+        ]);
+    }
+    public function deleteClassroom(Request $request, $id)
+    {
+        $classroom = Classroom::find($id);
+
+        if (!$classroom) {
+            return response()->json(['message' => 'Classroom not found'], 404);
+        }
+        Course::where('classroom_id', $classroom->id)->update(['classroom_id' => null]);
+        $classroom->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'type' => 'delete'
+        ]);
+    }
+    public function updateClassroom(Request $request, $id)
+    {
+        $classroom = Classroom::find($id);
+
+        // TODO: Mejorar validaciones, no permitir con el mismo nombre
+
+        if (!$classroom) {
+            return response()->json(['message' => 'Classroom not found'], 404);
+        }
+
+        // TODO: hacer dinamico
+        if ($classroom->classroom_name === $request->classroom_name) {
+                return response()->json([
+                    'status' => 'duplicated',
+                    'type' => 'update',
+                ]);
+            }
+
+        $classroom->update($request->all());
+
+        return response()->json([
+            'status' => 'success',
+            'type' => 'update',
         ]);
     }
 }
